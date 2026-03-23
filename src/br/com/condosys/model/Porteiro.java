@@ -29,10 +29,10 @@ public class Porteiro extends Usuario {
 		this.turno = turno;
 	}
 	
-	public localDate getDataAdminissão() {
-		return dataAdmissao;
+	public LocalDate getDataAdmissao() {
+        return dataAdmissao;
 	}
-	/ 4. Métodos de Negócio (Esqueletos)
+	// Métodos de Negócio (Esqueletos)
     /* * Nota do Professor: No seu diagrama, o Porteiro tem métodos como "registrarEntrada".
      * Como esses métodos dependem de classes que ainda não criamos (como RegistroAcesso e Unidade),
      * nós vamos deixar apenas um aviso em texto por enquanto para o código não dar erro!
