@@ -9,7 +9,7 @@ public abstract class Usuario extends Pessoa {
 	
 	// cosntruto
 	public Usuario(String nome, String documento, String telefone, String email, String senhaHash) {
-	// super usado pra chamar o contrutor da classe Pessoa a nossa principal
+	// super usado pra chamar o construtor da classe Pessoa a nossa principal
 	//preenchendo o nome, doumento, telefone e gera o id unicdo
 	
 	super(nome, documento, telefone);
