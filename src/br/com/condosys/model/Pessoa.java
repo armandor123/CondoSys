@@ -34,5 +34,9 @@ public abstract class Pessoa {
 	public String getTelefone() {
 		return telefone;
 	}
+	public String getDocumento() {
+        return documento;
+    }
+	
 	
 }

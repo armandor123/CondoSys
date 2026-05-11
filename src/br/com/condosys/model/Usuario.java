@@ -42,6 +42,9 @@ public abstract class Usuario extends Pessoa {
 		System.out.println("Usuario desativado do sistema.");
 		
 	}
+	public String getSenha() {
+	    return senhaHash;
+	}
 	
 	// getters e setters especificos do usuario
 	public String getEmail(){
