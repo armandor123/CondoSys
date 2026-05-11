@@ -39,4 +39,28 @@ public class UsuarioDAO {
             e.printStackTrace();
         }
     }
+ // Novo método: Vai no banco e verifica se o e-mail e senha existem
+    public boolean autenticar(String email, String senha) {
+        // Comando SQL de busca (SELECT)
+        String sql = "SELECT * FROM tabela_usuarios WHERE email = ? AND senha = ?";
+        
+        try (Connection conexao = FabricaConexao.conectar();
+             PreparedStatement ps = conexao.prepareStatement(sql)) {
+            
+            // Trocamos as interrogações pelo que o usuário digitou na tela
+            ps.setString(1, email);
+            ps.setString(2, senha);
+            
+            // O ResultSet é a "caixa" que guarda a resposta do banco de dados
+            try (java.sql.ResultSet rs = ps.executeQuery()) {
+                // Se o rs.next() for verdadeiro, significa que o banco achou 1 usuário com esses dados!
+                return rs.next(); 
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("❌ Erro ao buscar usuário no banco de dados!");
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
