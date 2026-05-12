@@ -1,64 +1,64 @@
 package br.com.condosys.main;
 
 import javax.swing.*;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Font;
 
 public class TelaPrincipal extends JFrame {
 
     public TelaPrincipal() {
         // 1. Configurações da Janela Principal
-        setTitle("CondoSys - Dashboard Principal");
-        setSize(500, 350); // Janela um pouco maior
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Fechar tudo ao clicar no X
-        setLocationRelativeTo(null); // Centralizar na tela
-        setLayout(null); // Posições manuais
+        setTitle("CondoSys - Sistema de Gestão Condominial");
+        setSize(500, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(null);
 
-        // 2. Mensagem de Boas-Vindas
-        JLabel labelBemVindo = new JLabel("Bem-vindo ao sistema do Morada Nova!");
-        labelBemVindo.setFont(new Font("Arial", Font.BOLD, 16)); // Deixando a letra maior
-        labelBemVindo.setBounds(90, 20, 350, 30);
-        add(labelBemVindo);
+        // 2. Título de Boas-vindas
+        JLabel labelTitulo = new JLabel("Painel Administrativo CondoSys");
+        labelTitulo.setFont(new Font("Arial", Font.BOLD, 18));
+        labelTitulo.setBounds(100, 30, 300, 30);
+        add(labelTitulo);
 
-        // 3. Botão: Registrar Acesso (Visitantes)
-        JButton btnAcesso = new JButton("Registrar Acesso");
-        btnAcesso.setBounds(150, 80, 200, 40);
-        add(btnAcesso);
+        // 3. Botão: Gerenciar Encomendas (O que você vai testar agora)
+        JButton btnEncomendas = new JButton("📦 Gerenciar Encomendas");
+        btnEncomendas.setBounds(125, 100, 250, 50);
+        add(btnEncomendas);
 
-        // 4. Botão: Gerenciar Encomendas
-        JButton btnEncomenda = new JButton("Gerenciar Encomendas");
-        btnEncomenda.setBounds(150, 140, 200, 40);
-        add(btnEncomenda);
+        // 4. Botão: Outros Módulos (Exemplo para o futuro)
+        JButton btnUsuarios = new JButton("👤 Gerenciar Usuários");
+        btnUsuarios.setBounds(125, 170, 250, 50);
+        add(btnUsuarios);
 
-        // 5. Botão: Sair do Sistema
-        JButton btnSair = new JButton("Sair (Logout)");
-        btnSair.setBounds(150, 200, 200, 40);
-        add(btnSair);
-
-        // --- AÇÕES DOS BOTÕES ---
-
-        // Ação do Botão Acesso (Como a tela não existe ainda, mostramos um aviso)
-        btnAcesso.addActionListener(new ActionListener() {
+        // =========================================================
+        // LÓGICA PARA ABRIR A TELA DE ENCOMENDAS
+        // =========================================================
+        btnEncomendas.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Módulo de Acessos em desenvolvimento!");
+                // Instancia a tela real de encomendas que criamos
+                TelaGerenciarEncomendas tela = new TelaGerenciarEncomendas();
+                // Torna a tela visível
+                tela.setVisible(true);
             }
         });
 
-        // Ação do Botão Encomenda
-        btnEncomenda.addActionListener(new ActionListener() {
+        // Lógica provisória para o botão de usuários
+        btnUsuarios.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Módulo de Encomendas em desenvolvimento!");
+                JOptionPane.showMessageDialog(null, "Módulo de Usuários será implementado em breve!");
             }
         });
+    }
 
-        // Ação do Botão Sair (Fecha a tela principal e abre o login de novo)
-        btnSair.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose(); // Fecha esta janela
-                TelaLogin telaLogin = new TelaLogin(); // Cria a janela de login
-                telaLogin.setVisible(true); // Mostra o login
-            }
+    // Método principal para iniciar o sistema
+    public static void main(String[] args) {
+        // Garante que a interface seja iniciada corretamente na Thread do Swing
+        SwingUtilities.invokeLater(() -> {
+            TelaPrincipal principal = new TelaPrincipal();
+            principal.setVisible(true);
         });
     }
 }
