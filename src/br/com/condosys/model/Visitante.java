@@ -1,15 +1,24 @@
 package br.com.condosys.model;
 
-import java.time.LocalDateTime;
+import java.util.UUID;
 
-public class Visitante extends Pessoa {
-    private LocalDateTime dataUltimaVisita;
+public class Visitante {
+    private String id;
+    private String nome;
+    private String documento;
+    private Unidade unidadeDestino;
 
-    public Visitante(String nome, String documento, String telefone) {
-        super(nome, documento, telefone);
-        this.dataUltimaVisita = LocalDateTime.now();
+    // Construtor para registrar um NOVO visitante (gera o ID na hora)
+    public Visitante(String nome, String documento, Unidade unidadeDestino) {
+        this.id = UUID.randomUUID().toString();
+        this.nome = nome;
+        this.documento = documento;
+        this.unidadeDestino = unidadeDestino;
     }
 
-    public LocalDateTime getDataUltimaVisita() { return dataUltimaVisita; }
-    public void atualizarUltimaVisita() { this.dataUltimaVisita = LocalDateTime.now(); }
+    // Getters para o DAO conseguir ler os dados
+    public String getId() { return id; }
+    public String getNome() { return nome; }
+    public String getDocumento() { return documento; }
+    public Unidade getUnidadeDestino() { return unidadeDestino; }
 }

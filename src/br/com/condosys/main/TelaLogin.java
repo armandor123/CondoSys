@@ -1,80 +1,94 @@
 package br.com.condosys.main;
 
 import br.com.condosys.dao.UsuarioDAO;
+import br.com.condosys.model.Usuario;
+import br.com.condosys.util.EstiloUtil;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 
 public class TelaLogin extends JFrame {
 
-    // Componentes que vão aparecer na tela
-    private JTextField campoEmail;
+    private JTextField campoEmail; // <-- Agora é email
     private JPasswordField campoSenha;
-    private JButton botaoEntrar;
 
     public TelaLogin() {
-        // 1. Configurações básicas da Janela
-        setTitle("CondoSys - Controle de Acesso"); 
-        setSize(350, 200); 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-        setLocationRelativeTo(null); // Abre no centro da tela
-        setLayout(null); 
+        setTitle("CondoSys - Acesso Restrito");
+        setSize(400, 500);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getContentPane().setBackground(Color.WHITE);
+        setLocationRelativeTo(null);
+        setLayout(null);
 
-        // 2. Criando o texto e a caixinha do E-MAIL
-        JLabel labelEmail = new JLabel("E-mail:");
-        labelEmail.setBounds(30, 30, 80, 25);
-        add(labelEmail);
+        // --- CABEÇALHO ROXO ---
+        JPanel painelTopo = new JPanel();
+        painelTopo.setBackground(EstiloUtil.COR_PRIMARIA);
+        painelTopo.setBounds(0, 0, 400, 100);
+        painelTopo.setLayout(null);
+        add(painelTopo);
+
+        JLabel lblLogo = new JLabel("CondoSys", SwingConstants.CENTER);
+        lblLogo.setForeground(Color.WHITE);
+        lblLogo.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        lblLogo.setBounds(0, 30, 400, 40);
+        painelTopo.add(lblLogo);
+
+        // --- CAMPOS ---
+        JLabel lblLogin = new JLabel("E-MAIL DE ACESSO"); // <-- Mudou o texto
+        lblLogin.setFont(EstiloUtil.FONTE_LABEL);
+        lblLogin.setForeground(EstiloUtil.COR_TEXTO_SUAVE);
+        lblLogin.setBounds(50, 130, 300, 25);
+        add(lblLogin);
 
         campoEmail = new JTextField();
-        campoEmail.setBounds(100, 30, 200, 25);
+        campoEmail.setFont(EstiloUtil.FONTE_INPUT);
+        campoEmail.setBorder(new LineBorder(EstiloUtil.COR_PRIMARIA, 1));
+        campoEmail.setBounds(50, 160, 300, 40);
         add(campoEmail);
 
-        // 3. Criando o texto e a caixinha de SENHA
-        JLabel labelSenha = new JLabel("Senha:");
-        labelSenha.setBounds(30, 70, 80, 25);
-        add(labelSenha);
+        JLabel lblSenha = new JLabel("SENHA");
+        lblSenha.setFont(EstiloUtil.FONTE_LABEL);
+        lblSenha.setForeground(EstiloUtil.COR_TEXTO_SUAVE);
+        lblSenha.setBounds(50, 220, 300, 25);
+        add(lblSenha);
 
         campoSenha = new JPasswordField();
-        campoSenha.setBounds(100, 70, 200, 25);
+        campoSenha.setFont(EstiloUtil.FONTE_INPUT);
+        campoSenha.setBorder(new LineBorder(EstiloUtil.COR_PRIMARIA, 1));
+        campoSenha.setBounds(50, 250, 300, 40);
         add(campoSenha);
 
-        // 4. Criando o BOTÃO de Entrar
-        botaoEntrar = new JButton("Entrar");
-        botaoEntrar.setBounds(120, 110, 100, 30);
-        add(botaoEntrar);
+        // --- BOTÃO ENTRAR ---
+        JButton btnEntrar = new JButton("ENTRAR NO SISTEMA");
+        btnEntrar.setFont(EstiloUtil.FONTE_BOTAO);
+        btnEntrar.setForeground(EstiloUtil.COR_PRIMARIA);
+        btnEntrar.setBackground(Color.WHITE);
+        btnEntrar.setBorder(new LineBorder(EstiloUtil.COR_PRIMARIA, 2));
+        btnEntrar.setFocusPainted(false);
+        btnEntrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnEntrar.setBounds(50, 340, 300, 50);
+        add(btnEntrar);
 
-        // 5. EVENTO DO BOTÃO (Comunicação 100% real com o Banco de Dados)
-        botaoEntrar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Pega os dados digitados
-                String emailDigitado = campoEmail.getText();
-                String senhaDigitada = new String(campoSenha.getPassword());
+        // LÓGICA DE LOGIN
+        btnEntrar.addActionListener(e -> {
+            String email = campoEmail.getText();
+            String senha = new String(campoSenha.getPassword());
 
-                // Instancia o motor do banco de dados
-                UsuarioDAO dao = new UsuarioDAO();
+            // Envia o E-MAIL no lugar do login antigo
+            Usuario user = new UsuarioDAO().autenticar(email, senha);
 
-                // Pede para o DAO ir no banco conferir as credenciais
-                boolean acessoPermitido = dao.autenticar(emailDigitado, senhaDigitada);
-
-                // Toma a decisão baseada na resposta do banco
-                if (acessoPermitido) {
-                    JOptionPane.showMessageDialog(null, "Acesso Permitido! Seja bem-vindo ao CondoSys.");
-                    
-                    TelaPrincipal principal = new TelaPrincipal();
-                    principal.setVisible(true);
-                    
-                    dispose(); // Fecha a janela de login
-                } else {
-                    JOptionPane.showMessageDialog(null, "Acesso Negado. E-mail ou senha não encontrados no banco de dados.", "Erro de Login", JOptionPane.ERROR_MESSAGE);
-                }
+            if (user != null) {
+                JOptionPane.showMessageDialog(this, "Bem-vindo, " + user.getNome() + "!");
+                new TelaPrincipal().setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Acesso Negado! E-mail ou senha incorretos, ou conta desativada.", "Erro de Segurança", JOptionPane.ERROR_MESSAGE);
             }
         });
     }
 
-    // O "Motor de Partida" do Java
     public static void main(String[] args) {
-        TelaLogin minhaTela = new TelaLogin();
-        minhaTela.setVisible(true);
+        EstiloUtil.aplicarLookAndFeel();
+        SwingUtilities.invokeLater(() -> new TelaLogin().setVisible(true));
     }
 }

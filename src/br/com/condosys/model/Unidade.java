@@ -3,28 +3,38 @@ package br.com.condosys.model;
 import java.util.UUID;
 
 public class Unidade {
-    
     private String id;
     private String bloco;
     private String numero;
+    private String proprietario; // <--- NOVA COLUNA
 
-    // Construtor 1: Para criar uma unidade nova
-    public Unidade(String bloco, String numero) {
+    public Unidade(String id) { this.id = id; }
+
+    public Unidade(String bloco, String numero, String proprietario) {
         this.id = UUID.randomUUID().toString();
         this.bloco = bloco;
         this.numero = numero;
+        this.proprietario = proprietario;
     }
 
-    // Construtor 2: Para a tela de encomendas (recebe o ID direto)
-    public Unidade(String id) {
+    public Unidade(String id, String bloco, String numero, String proprietario) {
         this.id = id;
+        this.bloco = bloco;
+        this.numero = numero;
+        this.proprietario = proprietario;
     }
 
-    // --- GETTERS E SETTERS ---
     public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
     public String getBloco() { return bloco; }
-    public void setBloco(String bloco) { this.bloco = bloco; }
     public String getNumero() { return numero; }
-    public void setNumero(String numero) { this.numero = numero; }
+    public String getProprietario() { return proprietario; }
+
+    // Agora o Dropdown vai mostrar: Bloco A - Apto 101 (Carlos Drummond)
+    @Override
+    public String toString() {
+        if (proprietario != null && !proprietario.isEmpty()) {
+            return "Bloco " + bloco + " - Apto " + numero + " (" + proprietario + ")";
+        }
+        return "Bloco " + bloco + " - Apto " + numero;
+    }
 }

@@ -1,27 +1,24 @@
 package br.com.condosys.model;
 
-public abstract class Usuario extends Pessoa {
+public class Usuario extends Pessoa {
 	
-	//Seguindo nosso UML esse são os atributos especificos apenas do usuario
+	// Seguindo nosso UML esses são os atributos específicos apenas do usuario
 	private String email;
 	private String senhaHash;
 	private boolean ativo;
 	
-	// cosntruto
+	// Construtor
 	public Usuario(String nome, String documento, String telefone, String email, String senhaHash) {
-	// super usado pra chamar o construtor da classe Pessoa a nossa principal
-	//preenchendo o nome, doumento, telefone e gera o id unicdo
+	    // super usado pra chamar o construtor da classe Pessoa a nossa principal
+	    // preenchendo o nome, documento, telefone e gera o id unico
+	    super(nome, documento, telefone);
 	
-	super(nome, documento, telefone);
+	    this.email = email;
+	    this.senhaHash = senhaHash;
+	    this.ativo = true; // todos usuarios novos ja vao ser ativos por padrão
+	}
 	
-	this.email = email;
-	this.senhaHash = senhaHash;
-	this.ativo = true; //todos usuarios novos ja vao ser ativos por padrão
-	
-
-}
-	
-	// Metodos de negocio (oque o usuario faz)
+	// Métodos de negocio (o que o usuario faz)
 	public boolean autenticar(String emailLogin, String senhaLogin) {
 		// valida se a conta esta ativa e se o email e senha batem
 		if (this.ativo && this.email.equals(emailLogin) && this.senhaHash.equals(senhaLogin)) {
@@ -38,29 +35,21 @@ public abstract class Usuario extends Pessoa {
 	}
 	
 	public void desativar() {
-		this.ativo =false;
+		this.ativo = false;
 		System.out.println("Usuario desativado do sistema.");
-		
 	}
+	
 	public String getSenha() {
 	    return senhaHash;
 	}
 	
-	// getters e setters especificos do usuario
-	public String getEmail(){
+	// Getters e setters especificos do usuario
+	public String getEmail() {
 		return email;
-		
-	}// Para booleanos, o Java usa "is" em vez de "get"
-	 public boolean isAtivo() {
-		 return ativo;
-	 }
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	// Para booleanos, o Java usa "is" em vez de "get"
+	public boolean isAtivo() {
+		return ativo;
+	}
 }
